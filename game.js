@@ -11,7 +11,7 @@ game={
 	factor:[0,1,1,1,1,1,1,1,1,1,1]
 };
 function init(){
-	// load();
+	load();
 	showT1();
 	printBits();
 	gameToExp();
@@ -30,7 +30,7 @@ function gameToExp(){
         game.price[i] = numToExp(game.price[i]);
         game.pricefactor[i] = numToExp(game.pricefactor[i]);
         game.sensor[i] = numToExp(game.sensor[i]);
-        game.sensornum[i] = numToExp(game.sensor[i]);
+        game.sensornum[i] = numToExp(game.sensornum[i]);
     }
 	game.bits = numToExp(game.bits);
 	game.intervalId1=setInterval(tick,50);
@@ -46,11 +46,18 @@ function save(data){
 }
 function load(){
 	try{
-		var jsonData=localStorage.getItem("game");
+		var savefile,jsonData=localStorage.getItem("game");
 		if(jsonData!==null){
 			console.log("loaded.");
-			return game=JSON.parse(localStorage.getItem("game"));
+			savefile=JSON.parse(localStorage.getItem("game"));
 		}
+		game.showing=savefile.showing;
+		game.bits=savefile.bits;
+		game.sensor=savefile.sensor;
+		game.sensornum=savefile.sensornum;
+		game.price=savefile.price;
+		game.pricefactor=savefile.pricefactor;
+		game.factor=savefile.factor;
 	}
 	catch(error){
 		console.error("Error:",error);
@@ -62,3 +69,22 @@ autoSave=setInterval(()=>{
 window.addEventListener("beforeunload",()=>{
 	clearInterval(autoSave)
 });
+function reset(){
+	autosave=null;
+	game={
+		showing:'T1',
+		msOfTick:50,
+		intervalId1:null,
+		bits:0,
+		sensor:[0,0,0,0,0,0,0,0,0,0,0],
+		sensornum:[0,1,1,1,1,1,1,1,1,1,1,1],
+		price:[0,1e1,1e2,1e3,1e4,1e5,1e6,1e7,1e8,1e9,1e10],
+		pricefactor:[0,1e1,1e2,1e3,1e4,1e5,1e6,1e7,1e8,1e9,1e10],
+		factor:[0,1,1,1,1,1,1,1,1,1,1]
+	};
+	gameToExp();
+}
+function hardReset(){
+	reset();
+	save();
+}

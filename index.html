@@ -8,6 +8,7 @@
 	<script src="UI.js"></script>
 	<script src="plus1.js"></script>
 	<script>
+		load();
 		game.bits=numToExp(game.bits);
 	</script>
 </head>
@@ -82,7 +83,12 @@
 				<!-- <i>null</i><br/> -->
 			</span>
 			2024.09.10 v1.0.0 添加了标签页,生成器,存读档,购买最大按钮<br/>
+			2024.09.10 v1.0.1 修补了存读档的重大bug<br/>
+			2024.09.10 v1.0.2 增加了2个重置按钮<br/>
 		</p>
+		<br/>
+		<button onclick="reset()" id="bsave">重置游戏但不重置存档(刷新前关闭自动存档)</button>
+		<button onclick="hardReset()" id="bload" style="color:darkred;">重置游戏与存档</button>
 	</span>
 </body>
 </html>

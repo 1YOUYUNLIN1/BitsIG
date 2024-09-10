@@ -32,7 +32,7 @@ function allmax(tier){
 	switch(tier){
 		case 1:
 			for(var i=10;i>=1;i--){
-				while(geq(game.bits,game.price[i])){
+				while(geq(game.bits,price(1,1,i))){
 					buy(1,1,i);
 				}
 			}
