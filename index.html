@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<meta charset="UTF-8">
+<head>
+	<title>???</title>
+	<script src="bignum.js"></script>
+	<script src="game.js"></script>
+	<script src="UI.js"></script>
+	<script src="plus1.js"></script>
+	<script>
+		game.bits=numToExp(game.bits);
+	</script>
+</head>
+<body>
+	<div id="bits">你有 0 位</div>
+	<span id="showings">
+		<button id="showT1" onclick="showT1()">传感器</button> 
+		<button id="showO" onclick="showO()">杂项</button> 
+	</span>
+	<br/>
+	<span id="T1">
+		<button onclick="plus1()" id="bplus1">+1</button>
+		<button onclick="allmax(1)" id="T1allmax">全部最大</button>
+		<p>
+			传感器-I
+			<button onclick="buy(1,1,1)" id="bs1">买一个 传感器-I</button>
+			<span id="sensor1"></span>
+		</p>
+		<p>
+			传感器-II
+			<button onclick="buy(1,1,2)" id="bs2">买一个 传感器-II</button>
+			<span id="sensor2"></span>
+		</p>
+		<p>
+			传感器-III
+			<button onclick="buy(1,1,3)" id="bs3">买一个 传感器-III</button>
+			<span id="sensor3"></span>
+		</p>
+		<p>
+			传感器-IV
+			<button onclick="buy(1,1,4)" id="bs4">买一个 传感器-IV</button>
+			<span id="sensor4"></span>
+		</p>
+		<p>
+			传感器-V
+			<button onclick="buy(1,1,5)" id="bs5">买一个 传感器-V</button>
+			<span id="sensor5"></span>
+		</p>
+		<p>
+			传感器-VI
+			<button onclick="buy(1,1,6)" id="bs6">买一个 传感器-VI</button>
+			<span id="sensor6"></span>
+		</p>
+		<p>
+			传感器-VII
+			<button onclick="buy(1,1,7)" id="bs7">买一个 传感器-VII</button>
+			<span id="sensor7"></span>
+		</p>
+		<p>
+			传感器-VIII
+			<button onclick="buy(1,1,8)" id="bs8">买一个 传感器-VIII</button>
+			<span id="sensor8"></span>
+		</p>
+		<p>
+			传感器-IX
+			<button onclick="buy(1,1,9)" id="bs9">买一个 传感器-IX</button>
+			<span id="sensor9"></span>
+		</p>
+		<p>
+			传感器-X
+			<button onclick="buy(1,1,10)" id="bs10">买一个 传感器-X</button>
+			<span id="sensor10"></span>
+		</p>
+	</span>
+	<span id="others">
+		<button onclick="save()" id="bsave">保存</button>
+		<button onclick="load()" id="bload">加载</button>
+		<br/>
+		<p>
+			更新历程:<br/>
+			<span id="pre">
+				<!-- <i>null</i><br/> -->
+			</span>
+			2024.09.10 v1.0.0 添加了标签页,生成器,存读档,购买最大按钮<br/>
+		</p>
+	</span>
+</body>
+</html>
