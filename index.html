@@ -13,9 +13,10 @@
 	</script>
 </head>
 <body>
-	<div id="bits">你有 0 位</div>
+	<div id="bits">你有 0 位数据</div>
 	<span id="showings">
-		<button id="showT1" onclick="showT1()">传感器</button> 
+		<button id="showT1" onclick="showT1()">传感器</button>
+		<button id="showT1upg" onclick="showT1upg()">传感器升级</button>
 		<button id="showO" onclick="showO()">杂项</button> 
 	</span>
 	<br/>
@@ -73,9 +74,28 @@
 			<span id="sensor10"></span>
 		</p>
 	</span>
+	<span id="T1upg">
+		<p id="supg1">
+			传感器升级-I
+			<button onclick="buy(1,0,1)" id="bsupg1">买 传感器升级-I</button>
+			<span id="supgtext1"></span>
+			效果:数据加成传感器速度
+		</p>
+		<p id="supg2">
+			传感器升级-II
+			<button onclick="buy(1,0,2)" id="bsupg2">买 传感器升级-II</button>
+			<span id="supgtext2"></span>
+			效果:传感器数量降低其价格
+		</p>
+	</span>
 	<span id="others">
 		<button onclick="save()" id="bsave">保存</button>
 		<button onclick="load()" id="bload">加载</button>
+		<br/>
+		<button onclick="save2()" id="bsave2">导出为文本</button>
+		<button onclick="load2()" id="bload2">导入文本并<b>覆盖存档</b></button>
+		<input type="text" name="saveText" id="saveText">
+		<span id="loadStrErr"></span>
 		<br/>
 		<p>
 			更新历程:<br/>
@@ -85,6 +105,8 @@
 			2024.09.10 v1.0.0 添加了标签页,生成器,存读档,购买最大按钮<br/>
 			2024.09.10 v1.0.1 修补了存读档的重大bug<br/>
 			2024.09.10 v1.0.2 增加了2个重置按钮<br/>
+			2024.09.10 v1.1.0 增加了2个传感器升级<br/>
+			2024.09.10 v1.2.0 增加了存档导入导出<br/>
 		</p>
 		<br/>
 		<button onclick="reset()" id="bsave">重置游戏但不重置存档(刷新前关闭自动存档)</button>

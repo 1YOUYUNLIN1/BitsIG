@@ -104,7 +104,7 @@ function mul(val1, val2)    //乘法
 }
 function div(val1, val2)    //除法
 {
-    var ret = new bigNum( val1.bas / val2.bas , val1.exp - val2.exp );
+    var ret = new bigNum( val1.bas *1./ val2.bas , val1.exp - val2.exp );
     ret = expToExp(ret);
     return ret;
 }
@@ -114,7 +114,7 @@ function log10(value)   //以10为底的对数
 }
 function log2(value)   //以2为底的对数
 {
-    return (Math.log10(value.bas) + value.exp) / Math.log10(2);
+    return numToExp((Math.log10(value.bas) + value.exp) / Math.log10(2));
 }
 function fixExp(value)  //修补NaN的情况
 {
@@ -152,6 +152,12 @@ function equ(val1, val2)    //等于
 }
 function less(val1, val2)   //小于
 {
+	if(val1.bas==0){
+		return val2.bas>0;
+	}
+	if(val2.bas==0){
+		return val1.bas<0;
+	}
     if(val1.exp != val2.exp)
     {
         return val1.exp < val2.exp;
@@ -160,6 +166,12 @@ function less(val1, val2)   //小于
 }
 function greater(val1, val2)    //大于
 {
+	if(val1.bas==0){
+		return val2.bas<0;
+	}
+	if(val2.bas==0){
+		return val1.bas>0;
+	}
     if(val1.exp != val2.exp)
     {
         return val1.exp > val2.exp;
@@ -185,4 +197,40 @@ function max(val1, val2)    //两数中较大者
 function min(val1, val2)    //两数中较小者
 {
     return (leq(val1,val2) ? val1 : val2);
+}function checkType(any) {
+	return Object.prototype.toString.call(any).slice(8, -1)
+}
+function clone(any){
+	if(checkType(any) === 'Object') { // 拷贝对象
+		let o = {};
+		for(let key in any) {
+			o[key] = clone(any[key])
+		}
+		return o;
+	} else if(checkType(any) === 'Array') { // 拷贝数组
+		var arr = []
+		for(let i = 0,leng = any.length;i<leng;i++) {
+			arr[i] = clone(any[i])
+		}
+		return arr;
+	} else if(checkType(any) === 'Function') { // 拷贝函数
+		return new Function('return '+any.toString()).call(this)
+	} else if(checkType(any) === 'Date') { // 拷贝日期
+		return new Date(any.valueOf())
+	} else if(checkType(any) === 'RegExp') { // 拷贝正则
+		return new RegExp(any)
+	} else if(checkType(any) === 'Map') { // 拷贝Map 集合
+		let m = new Map()
+		any.forEach((v,k)=>{
+			m.set(k, clone(v))
+		})
+		return m
+	} else if(checkType(any) === 'Set') { // 拷贝Set 集合
+		let s = new Set()
+		for(let val of any.values()) {
+			s.add(clone(val))
+		}
+		return s
+	}
+	return any;
 }

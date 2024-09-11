@@ -6,6 +6,12 @@ function buy(tier,type,level){
 	switch(tier){
 		case 1:
 			switch(type){
+				case 0:
+					if(geq(game.bits,price(1,0,level))){
+						game.bits=sub(game.bits,price(1,0,level));
+						game.upgrade[level]=true;
+					}
+					break;
 				case 1:
 					if(geq(game.bits,price(1,1,level))){
 						game.bits=sub(game.bits,price(1,1,level));
@@ -22,8 +28,10 @@ function price(tier,type,level){
 	switch(tier){
 		case 1:
 			switch(type){
+				case 0:
+					return game.upgprice[level];
 				case 1:
-					return game.price[level];
+					return mul(game.price[level],game.pricefactor2[level]);
 			}
 			break;
 	}
