@@ -116,6 +116,14 @@ function log2(value)   //以2为底的对数
 {
     return numToExp((Math.log10(value.bas) + value.exp) / Math.log10(2));
 }
+function sqrt(value)   //开根
+{
+    return expToExp(new bigNum(Math.sqrt(value.bas)*((value.exp%2)?Math.sqrt(10):1),Math.floor(value.exp/2+.1)));
+}
+function sqr(value)   //平方
+{
+    return mul(value,value);
+}
 function fixExp(value)  //修补NaN的情况
 {
     if(isNan(value))

@@ -10,8 +10,8 @@ const gamere={
 	pricefactor:[0,1e1,1e2,1e3,1e4,1e5,1e6,1e7,1e8,1e9,1e10],
 	pricefactor2:[0,1,1,1,1,1,1,1,1,1,1],
 	factor:[0,1,1,1,1,1,1,1,1,1,1],
-	upgrade:[false,false,false],
-	upgprice:[0,1e20,1e40]
+	upgrade:[false,false,false,false],
+	upgprice:[0,1e20,1e40,1e50]
 };
 var game;
 game=clone(gamere);
@@ -23,8 +23,15 @@ function init(){
 }
 function updupg(){
 	if(game.upgrade[1]){
-		for(var i=1;i<=10;i++){
-			game.factor[i]=max(log10(game.bits),new bigNum(1,0));
+		if(game.upgrade[3]){
+			for(var i=1;i<=10;i++){
+				game.factor[i]=max(sqr(log2(game.bits)),new bigNum(1,0));
+			}
+		}
+		else{
+			for(var i=1;i<=10;i++){
+				game.factor[i]=max(log10(game.bits),new bigNum(1,0));
+			}
 		}
 	}
 	else{
@@ -81,6 +88,7 @@ function save2(data){
 }
 function load(){
 	try{
+		reset();
 		var savefile,jsonData=localStorage.getItem("game");
 		if(jsonData!==null){
 			console.log("loaded.");
