@@ -7,16 +7,17 @@
 	<script src="game.js"></script>
 	<script src="UI.js"></script>
 	<script src="plus1.js"></script>
-	<script>
-		load();
-		game.bits=numToExp(game.bits);
-	</script>
+	<script src="storage.js"></script>
 </head>
 <body>
 	<div id="bits">你有 0 位数据</div>
+	<br/>
+	<p><span id="storages">你有 0 存储空间</span><button id="getStorages" onclick="getStorages()">重置以获得 0 存储空间</button></p>
+	<br/>
 	<span id="showings">
 		<button id="showT1" onclick="showT1()">传感器</button>
 		<button id="showT1upg" onclick="showT1upg()">传感器升级</button>
+		<button id="showT2" onclick="showT2()">存储升级</button>
 		<button id="showO" onclick="showO()">杂项</button> 
 	</span>
 	<br/>
@@ -85,13 +86,21 @@
 			传感器升级-II
 			<button onclick="buy(1,0,2)" id="bsupg2">买 传感器升级-II</button>
 			<span id="supgtext2"></span>
-			效果:传感器数量降低其价格
+			效果:数据降低传感器价格
 		</p>
 		<p id="supg3">
 			传感器升级-III
 			<button onclick="buy(1,0,3)" id="bsupg3">买 传感器升级-III</button>
 			<span id="supgtext3"></span>
 			效果:大幅增强传感器升级-I的效果
+		</p>
+	</span>
+	<span id="T2">
+		<p id="T2upg1">
+			存储升级-I
+			<button onclick="buy(2,0,1)" id="bT2upg1">买 存储升级-I</button>
+			<span id="T2upgtext1"></span>
+			效果:存储空间加成传感器速度
 		</p>
 	</span>
 	<span id="others">
@@ -106,18 +115,22 @@
 		<p>
 			更新历程:<br/>
 			<span id="pre">
-				<!-- <i>null</i><br/> -->
+				<!-- <i>施工中: v2.0.0 添加存储</i><br/> -->
+				<i>施工中: v2.2.0 添加2个存储升级和自动购买</i><br/>
 			</span>
 			2024.09.10 v1.0.0 添加了标签页,生成器,存读档,购买最大按钮<br/>
 			2024.09.10 v1.0.1 修补了存读档的重大bug<br/>
-			2024.09.10 v1.0.2 增加了2个重置按钮<br/>
-			2024.09.11 v1.1.0 增加了2个传感器升级<br/>
-			2024.09.11 v1.2.0 增加了存档导入导出<br/>
+			2024.09.10 v1.0.2 添加了2个重置按钮<br/>
+			2024.09.11 v1.1.0 添加了2个传感器升级<br/>
+			2024.09.11 v1.2.0 添加了存档导入导出<br/>
 			2024.09.11 v1.2.1 修复了一些bug并增加了1个传感器升级<br/>
+			2024.09.13 v2.0.0 添加了存储<br/>
+			2024.09.14 v2.1.0 添加了1个存储升级并优化了代码<br/>
+			2024.09.14 v2.1.1 修复了一些bug<br/>
 		</p>
 		<br/>
-		<button onclick="reset()" id="bsave">重置游戏但不重置存档(刷新前关闭自动存档)</button>
-		<button onclick="hardReset()" id="bload" style="color:darkred;">重置游戏与存档</button>
+		<button onclick="reset()" id="breset">重置游戏但不重置存档(刷新前关闭自动存档)</button>
+		<button onclick="hardReset()" id="bhardreset" style="color:darkred;">重置游戏与存档</button>
 	</span>
 </body>
 </html>

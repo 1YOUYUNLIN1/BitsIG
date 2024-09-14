@@ -22,6 +22,16 @@ function buy(tier,type,level){
 					break;
 			}
 			break;
+		case 2:
+			switch(type){
+				case 0:
+					if(geq(game.storages,price(2,0,level))){
+						game.storages=sub(game.storages,price(2,0,level));
+						game.T2.upgrade[level]=true;
+					}
+					break;
+			}
+			break;
 	}
 }
 function price(tier,type,level){
@@ -32,6 +42,12 @@ function price(tier,type,level){
 					return game.upgprice[level];
 				case 1:
 					return mul(game.price[level],game.pricefactor2[level]);
+			}
+			break;
+		case 2:
+			switch(type){
+				case 0:
+					return game.T2.upgprice[level];
 			}
 			break;
 	}

@@ -11,6 +11,10 @@
 	sTu1.hidden = true;
 	var bSTu1 = document.getElementById('showT1upg');
 	bSTu1.disabled = false;
+	var sT2 = document.getElementById('T2');
+	sT2.hidden = true;
+	var bST2 = document.getElementById('showT2');
+	bST2.disabled = false;
 }
 function showO(){
 	hideAll();
@@ -33,7 +37,7 @@ function printBits(){
 }
 function printSensors(){
 	for(var i=1;i<=10;i++){
-		document.getElementById("sensor"+i).innerText="数量:"+expToStr(mul(mul(game.sensor[i],game.sensornum[i]),game.factor[i]))+" 价格:"+expToStr(price(1,1,i))+"位 倍率:"+expToStr(mul(game.factor[i],game.sensornum[i]));
+		document.getElementById("sensor"+i).innerText="数量:"+expToStr(game.sensor[i])+" 价格:"+expToStr(price(1,1,i))+"位 倍率:"+expToStr(mul(game.factor[i],game.sensornum[i]));
 		var bBuyS = document.getElementById('bs' + i);
         bBuyS.disabled = ( ( geq( game.bits , price(1,1,i) ) ) ? false : true );
 	}
@@ -58,11 +62,43 @@ function printT1upg(){
 		else{
 			supg.style='color:darkred';
 		}
-		if(geq(game.bits,game.upgprice[i])&&!game.upgrade[i]){
+		if(geq(game.bits,price(1,0,i))&&!game.upgrade[i]){
 			bsupg.disabled=false;
 		}
 		else{
 			bsupg.disabled=true;
+		}
+	}
+}
+function printStorages(){
+	document.getElementById("storages").innerText="你有 "+expToStr(game.storages)+" 位存储空间";
+	document.getElementById("getStorages").innerText="重置以获得 "+expToStr(calcStorages(game.bits))+" 存储空间";
+}
+function showT2(){
+	hideAll();
+	var sTu2 = document.getElementById('T2');
+	sTu2.hidden = false;
+	var bSTu2 = document.getElementById('showT2');
+	bSTu2.disabled = true;
+	game.showing = 'T2';
+}
+function printT2upg(){
+	for(var i=1;i<game.T2.upgrade.length;i++){
+		var upg=document.getElementById('T2upg'+i);
+		var bupg=document.getElementById('bT2upg'+i);
+		var upgtext=document.getElementById('T2upgtext'+i);
+		upgtext.innerText='价格:'+expToStr(price(2,0,i))+'位存储空间';
+		if(game.T2.upgrade[i]){
+			upg.style='color:limegreen';
+		}
+		else{
+			upg.style='color:darkred';
+		}
+		if(geq(game.storages,price(2,0,i))&&!game.T2.upgrade[i]){
+			bupg.disabled=false;
+		}
+		else{
+			bupg.disabled=true;
 		}
 	}
 }

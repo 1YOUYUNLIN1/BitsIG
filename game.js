@@ -4,14 +4,19 @@ const gamere={
 	msOfTick:50,
     intervalId1:null,
 	bits:0,
+	storages:0,
 	sensor:[0,0,0,0,0,0,0,0,0,0,0],
-	sensornum:[0,1,1,1,1,1,1,1,1,1,1,1],
+	sensornum:[0,1,1,1,1,1,1,1,1,1,1],
 	price:[0,1e1,1e2,1e3,1e4,1e5,1e6,1e7,1e8,1e9,1e10],
 	pricefactor:[0,1e1,1e2,1e3,1e4,1e5,1e6,1e7,1e8,1e9,1e10],
 	pricefactor2:[0,1,1,1,1,1,1,1,1,1,1],
 	factor:[0,1,1,1,1,1,1,1,1,1,1],
 	upgrade:[false,false,false,false],
-	upgprice:[0,1e20,1e40,1e50]
+	upgprice:[0,1e20,1e40,1e50],
+	T2:{
+		upgrade:[false,false],
+		upgprice:[0,10]
+	}
 };
 var game;
 game=clone(gamere);
@@ -19,7 +24,6 @@ function init(){
 	load();
 	showT1();
 	printBits();
-	gameToExp();
 }
 function updupg(){
 	if(game.upgrade[1]){
@@ -49,6 +53,12 @@ function updupg(){
 			game.pricefactor2[i]=new bigNum(1,0);
 		}
 	}
+	//T2
+	if(game.T2.upgrade[1]){
+		for(var i=1;i<=10;i++){
+			game.factor[i]=mul(game.factor[i],sqr(game.storages));
+		}
+	}
 }
 function tick(){
 	updupg();
@@ -59,22 +69,45 @@ function tick(){
 	printBits();
 	printSensors();
 	printT1upg();
+	printStorages();
+	printT2upg();
 }
 function gameToExp(){
-    for(var i = 0; i <= 10; i++){
-        game.factor[i] = numToExp(game.factor[i]);
-        game.price[i] = numToExp(game.price[i]);
-        game.pricefactor[i] = numToExp(game.pricefactor[i]);
-        game.sensor[i] = numToExp(game.sensor[i]);
-        game.sensornum[i] = numToExp(game.sensornum[i]);
-        game.upgprice[i] = numToExp(game.upgprice[i]);
-    }
-	game.bits = numToExp(game.bits);
-	game.intervalId1=setInterval(tick,50);
+    // for(var i = 0; i <= 10; i++){
+    //     game.factor[i] = numToExp(game.factor[i]);
+    //     game.price[i] = numToExp(game.price[i]);
+    //     game.pricefactor[i] = numToExp(game.pricefactor[i]);
+    //     game.sensor[i] = numToExp(game.sensor[i]);
+    //     game.sensornum[i] = numToExp(game.sensornum[i]);
+    //     game.upgprice[i] = numToExp(game.upgprice[i]);
+    // }
+	// game.bits = numToExp(game.bits);
+	game=objToExp(game);
+	game.msOfTick=50;
+	game.intervalId1=setInterval(tick,game.msOfTick);
+}
+function objToExp(any){
+	if(checkType(any) === 'Object'&&any.constructor.name!="bigNum") { // 拷贝对象
+		let o = {};
+		for(let key in any) {
+			o[key] = objToExp(any[key]);
+		}
+		return o;
+	} else if(checkType(any) === 'Array') { // 拷贝数组
+		var arr = [];
+		for(let i = 0,leng = any.length;i<leng;i++) {
+			arr[i] = objToExp(any[i]);
+		}
+		return arr;
+	} else if(checkType(any) === 'Number') { // 拷贝数
+		return numToExp(any);
+	} else {
+		return any;
+	}
 }
 function save(data){
 	try{
-		localStorage.setItem("game",JSON.stringify(game));
+		localStorage.setItem("game",save2(game));
 		console.log("saved.");
 	}
 	catch(error){
@@ -84,61 +117,38 @@ function save(data){
 function save2(data){
 	var savestr=window.btoa(JSON.stringify(game));
 	var tST = document.getElementById('saveText');
-    tST.value = savestr;
+    return tST.value = savestr;
 }
 function load(){
 	try{
-		reset();
-		var savefile,jsonData=localStorage.getItem("game");
+		var savefile;
+		var jsonData2=localStorage.getItem("game");
+		var jsonData=(isBase64(jsonData2)?(window.atob(jsonData2)):null);
 		if(jsonData!==null){
 			console.log("loaded.");
-			savefile=JSON.parse(localStorage.getItem("game"));
+			savefile=JSON.parse(jsonData);
 		}
-		if(savefile.showing!==undefined){
-			game.showing=savefile.showing;
-		}
-		if(savefile.bits!==undefined){
-			game.bits=savefile.bits;
-		}
-		if(savefile.sensor!==undefined){
-			for(var i=0;savefile.sensor[i]!==undefined;i++){
-				game.sensor[i]=savefile.sensor[i];
-			}
-		}
-		if(savefile.sensornum!==undefined){
-			for(var i=0;savefile.sensornum[i]!==undefined;i++){
-				game.sensornum[i]=savefile.sensornum[i];
-			}
-		}
-		if(savefile.price!==undefined){
-			for(var i=0;savefile.price[i]!==undefined;i++){
-				game.price[i]=savefile.price[i];
-			}
-		}
-		if(savefile.pricefactor!==undefined){
-			for(var i=0;savefile.pricefactor[i]!==undefined;i++){
-				game.pricefactor[i]=savefile.pricefactor[i];
-			}
-		}
-		if(savefile.pricefactor2!==undefined){
-			for(var i=0;savefile.pricefactor2[i]!==undefined;i++){
-				game.pricefactor2[i]=savefile.pricefactor2[i];
-			}
-		}
-		if(savefile.factor!==undefined){
-			for(var i=0;savefile.factor[i]!==undefined;i++){
-				game.factor[i]=savefile.factor[i];
-			}
-		}
-		if(savefile.upgrade!==undefined){
-			for(var i=0;savefile.upgrade[i]!==undefined;i++){
-				game.upgrade[i]=savefile.upgrade[i];
-			}
-		}
+		game=clone(gamere);
+		gameToExp();
+		loading(game,savefile);
 	}
 	catch(error){
 		console.error("Error:",error);
 	}
+}
+function loading(gamere,any){
+	if(checkType(any) === 'Object') { // 拷贝对象
+		for(let key in any) {
+			gamere[key] = loading(gamere[key],any[key])
+		}
+		return gamere;
+	} else if(checkType(any) === 'Array') { // 拷贝数组
+		for(let i = 0,leng = any.length;i<leng;i++) {
+			gamere[i] = loading(gamere[i],any[i])
+		}
+		return gamere;
+	}
+	return any;
 }
 function isBase64(str) {
     if (str ==='' || str.trim() ===''){ return false; }
@@ -162,9 +172,8 @@ function load2(){
 	var savetext=tST.value;
 	if(isBase64(savetext)){
 		if(isJson(atob(savetext))){
-			localStorage.setItem("game",atob(savetext));
+			localStorage.setItem("game",savetext);
 			load();
-			save();
 			var err=document.getElementById("loadStrErr");
 			err.innerText="已覆盖存档!";
 		}
